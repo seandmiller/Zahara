@@ -9,14 +9,15 @@ print(f'------------------------------------------------------------------------
 
 class zoox_tools:
     def __init__(self):
-        openai.api_key = "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"
+        openai.api_key = "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"
         return
 
     def scrape_image(self):
        try:
-        dirname = "C:/Users/x-admiller/Desktop/tsimage"
-        files = os.listdir(dirname)
+        dirname = "/Users/aseanimiller/Desktop/imagereader"
         
+        files = os.listdir(dirname)
+        print(files)
         file = "/" +  files[0]
         image_path = dirname + file
         img = Image.open(image_path)
@@ -32,9 +33,8 @@ class zoox_tools:
        return
         
     
-    def chat_wgpt(self,prompt='', model="gpt-3.5-turbo"):
-        if prompt == "":
-           prompt = input('x-admiller>>: ')
+    def chat_wgpt(self,prompt=False, model="gpt-3.5-turbo",repeat=True):
+        if not prompt: prompt = input('x-admiller>>: ')
         if prompt == 'exit': return 
         response = openai.ChatCompletion.create(
         model=model,
@@ -42,29 +42,28 @@ class zoox_tools:
          )
         message = response.choices[0].message.content
         print(f'\n\n ChatGPT: {message}\n\n')
-       
-        self.chat_wgpt()
+        
+        if repeat: self.chat_wgpt()
        
 
 app = zoox_tools()
 program = { 'image': app.scrape_image,
             '//chatgpt': app.chat_wgpt}
 
-choice = input('\n #What would you like to do Mr Miller?>>: ')
+choice = ''
 
-while choice != 'exit':
+while True:
+    choice = input('\n #What would you like to do Mr Miller?>>: ')
+    if choice == 'exit': break
     if choice[-1] == '?':
-        app.chat_wgpt(prompt=choice)
-        choice = input('\n ##What else would you like to do Mr Miller?>>: ')
+        app.chat_wgpt(prompt=choice,repeat=False)
+        continue
         
     if not program.get(choice):
         print('I do not recognize that command\n*Here is a list of keys*\n')
         for key in program.keys():
              print('--' + key)    
-        choice = input('\n ##What else would you like to do Mr Miller?>>: ')
         continue
     
-
     program[choice]()
-    choice = input('\n ##What else would you like to do Mr Miller?>>: ')
    
