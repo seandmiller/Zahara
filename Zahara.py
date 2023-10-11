@@ -1,4 +1,4 @@
-import os, datetime, pyperclip, openai
+import os, datetime, pyperclip, openai, config
 from PIL import Image
 from pytesseract import pytesseract
 
@@ -9,7 +9,11 @@ print(f'------------------------------------------------------------------------
 
 class zoox_tools:
     def __init__(self):
-        openai.api_key = "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"
+        openai.api_key = config.API_KEY
+        f = open('Zahara.txt', 'r')
+        self.behavior = f.read()
+        
+        f.close()
         return
 
     def scrape_image(self):
@@ -34,14 +38,15 @@ class zoox_tools:
         
     
     def chat_wgpt(self,prompt=False, model="gpt-3.5-turbo",repeat=True):
+        
         if not prompt: prompt = input('x-admiller>>: ')
         if prompt == 'exit': return 
         response = openai.ChatCompletion.create(
         model=model,
-        messages=[{'role':'system', 'content': prompt}],
-         )
+        messages=[{'role':'system', 'content': self.behavior},
+            {'role':'user', 'content': prompt}])
         message = response.choices[0].message.content
-        print(f'\n\n ChatGPT: {message}\n\n')
+        print(f'\n\n Zahara: {message}\n\n')
         
         if repeat: self.chat_wgpt()
        
