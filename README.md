@@ -1,3 +1,3 @@
 # Zahara
-> Digital Jamaican Based AI that speaks wisdom and is there to help you throught your life.
+> Digital Jamaican Based AI that speaks wisdom and is there to help you through out your life.
 
